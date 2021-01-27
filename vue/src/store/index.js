@@ -6,9 +6,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     sneakers : [],
-    korisnik : []
+    korisnik : [],
+    token : []
   },
   mutations: {
+
+    set_token: function (state,token){
+      state.token=token;
+    },
 
     set_sneakers: function (state,sneakers){
       state.sneakers=sneakers;
@@ -134,6 +139,34 @@ export default new Vuex.Store({
             alert(error);
         });
       },
+
+
+      login: function ({ commit }, korisnik) {
+
+  fetch('http://localhost/api/login', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: korisnik
+  }).then((response) => {
+    if (!response.ok)
+      throw response;
+
+    return response.json();
+  }).then((jsonData) => {
+    localStorage.setItem('token', jsonData["token"]);
+    commit('set_token', jsonData["token"]);
+   // this.$router.push('/');
+  }).catch((error) => {
+    if (typeof error.text === 'function')
+      error.text().then((errorMessage) => {
+        alert(errorMessage);
+      });
+    else
+      alert(error);
+  });
+},
 
       change_sneakers: function({ commit }, payload) {
         fetch(`http://localhost/api/patike/${payload.id}`, {

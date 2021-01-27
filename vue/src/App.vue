@@ -4,7 +4,8 @@
     <div id="nav">
       <router-link to="/">Buzz</router-link> |
       <router-link to="/edit">New Sneakers</router-link> |
-      <router-link to="/register">Register</router-link>
+      <router-link to="/register">Register</router-link> |
+      <router-link to="/login">Login</router-link>
     </div>
     <router-view/>
   </div>

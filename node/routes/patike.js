@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 const mysql = require('mysql');
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 
 
@@ -26,6 +27,12 @@ const validacija = Joi.object().keys({
 
 const validacijaReg = Joi.object().keys({
     Ime: Joi.string().trim().min(2).max(100).required(),
+    Username: Joi.string().trim().min(2).max(100).required(),
+    Sifra: Joi.string().trim().min(2).max(100).required()
+
+});
+
+const validacijaLog = Joi.object().keys({
     Username: Joi.string().trim().min(2).max(100).required(),
     Sifra: Joi.string().trim().min(2).max(100).required()
 
@@ -111,6 +118,59 @@ route.post('/register', (req, res) => {
 });
 
 
+
+route.post('/login', (req, res) => {
+
+    let { error } = validacijaLog.validate(req.bod);
+    if (error)
+        res.status(400).send(error.details[0].message);
+    else {
+        let query = "SELECT * FROM korisnik where Username=?";
+
+        let formated = mysql.format(query, [req.body.Username]);
+
+        // Izvrsimo query
+        pool.query(formated, (err, response) => {
+            if (err)
+                res.status(500).send(err.sqlMessage);
+            else {
+
+
+                if (response.length != 0) {
+                    bcrypt.compare(req.body.Sifra, response[0]['Sifra'], (err, result) => {
+                        if (err) {
+                            console.log('bcrypt - error - ', err);
+                            return res.status(401).json({
+                                tite: 'login failed',
+                                error: 'invalid credentials'
+                            })
+                        } else {
+                            if (!result) {
+                                return res.status(401).json({
+                                    tite: 'login failed',
+                                    error: 'invalid credentials'
+                                })
+                            } else {
+                                let token = jwt.sign({ userId: response[0]['id'] }, 'secretkey');
+                                return res.status(200).json({
+                                    title: 'login sucess',
+                                    token: token
+                                })
+                            }
+
+                        }
+                    });
+                }else{
+                    return res.status(401).json({
+                        tite: 'login failed',
+                        error: 'invalid credentials'
+                    })
+                }
+
+            }
+        });
+    }
+});
 
 
 

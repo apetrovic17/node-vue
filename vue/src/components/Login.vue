@@ -3,10 +3,6 @@
         <b-form>
             <b-row align-v="center">
                 <b-col sm="2" >
-                    <b-input v-model="newIme" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Ime"></b-input>
-                </b-col>
-
-                <b-col sm="2" >
                     <b-input v-model="newUsername" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Username"></b-input>
                 </b-col>
 
@@ -15,13 +11,9 @@
                 </b-col>
 
                 <b-col sm="1">
-                    <b-button variant="primary" size="lg" @click="addNew">Registruj</b-button>
+                    <b-button variant="primary" size="lg" @click="addNew">Uloguj se</b-button>
                 </b-col>
 
-
-                <div v-if="errIme" class="alert alert-danger" role="alert">
-                    Mora da postoji Ime!
-                </div>
                 <div v-if="errUsername" class="alert alert-danger" role="alert">
                     Mora da postoji Username!
                 </div>
@@ -40,12 +32,8 @@
     import { mapActions } from 'vuex';
 
     export default {
-        name: "Register",
+        name: "Login",
         props: {
-            Ime: {
-                type: String,
-                default: ''
-            },
             Username: {
                 type: String,
                 default: ''
@@ -57,29 +45,21 @@
         },
         data() {
             return {
-                newIme: '',
                 newUsername: '',
                 newSifra: '',
-                errIme: false,
                 errUsername: false,
                 errSifra: false
             }
         },
         mounted: function () {
-            this.newIme = this.Ime;
             this.newUsername = this.Username;
             this.newSifra = this.Sifra;
         },
         methods: {
-            ...mapActions(['new_korisnik']),
+            ...mapActions(['login']),
 
             addNew: function() {
 
-              alert('PROBAAAAA');
-
-              if(!this.newIme){
-                this.errIme=true;
-              }
 
               if(!this.newUsername){
                 this.errUsername=true;
@@ -90,11 +70,10 @@
               }
 
 
-                const pat = JSON.stringify({Ime: this.newIme, Username: this.newUsername, Sifra: this.newSifra});
+                const pat = JSON.stringify({Username: this.newUsername, Sifra: this.newSifra});
 
-                this.new_korisnik(pat);
+                this.login(pat);
 
-                this.newIme = '';
                 this.newUsername = '';
                 this.newSifra = '';
                 this.$route.push("/home");
