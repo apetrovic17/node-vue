@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Sneakers from '@/views/Sneakers.vue'
 import NewSneakers from '@/views/NewSneakers.vue'
+import Register from '@/views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,12 @@ const routes = [
     path: '/edit',
     name: 'newSneakers',
     component: NewSneakers
+  },
+
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
 
   {

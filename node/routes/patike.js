@@ -1,6 +1,8 @@
 const express = require('express');
 const Joi = require('joi');
 const mysql = require('mysql');
+const bcrypt = require("bcrypt");
+
 
 
 const pool = mysql.createPool({
@@ -19,6 +21,14 @@ const validacija = Joi.object().keys({
     opis: Joi.string().max(512).required(),
     velicina: Joi.number().required(),
     cena: Joi.number().required()
+});
+
+
+const validacijaReg = Joi.object().keys({
+    Ime: Joi.string().trim().min(2).max(100).required(),
+    Username: Joi.string().trim().min(2).max(100).required(),
+    Sifra: Joi.string().trim().min(2).max(100).required()
+
 });
 
 route.use(express.json());
@@ -64,6 +74,44 @@ route.post('/patike', (req, res) => {
         });
     }
 });
+
+
+route.post('/register', (req, res) => {
+
+    let { error } = validacijaReg.validate(req.body);
+    if (error)
+        res.status(400).send(error.details[0].message);
+
+    else {
+
+        var salt = bcrypt.genSaltSync(10);
+        let sifra = bcrypt.hashSync(req.body.Sifra, salt);
+
+        let query = "insert into korisnik (Ime, Username, Sifra) values (?, ?, ?)";
+        let formated = mysql.format(query, [req.body.Ime, req.body.Username,sifra]);
+
+
+        pool.query(formated, (err, response) => {
+            if (err)
+                res.status(500).send(err.sqlMessage);
+            else {
+
+                query = 'select * from korisnik where id=?';
+                formated = mysql.format(query, [response.insertId]);
+
+                pool.query(formated, (err, rows) => {
+                    if (err)
+                        res.status(500).send(err.sqlMessage);
+                    else
+                        res.send(rows[0]);
+                });
+            }
+        });
+    }
+});
+
+
+
 
 
 route.get('/patike/:id', (req, res) => {

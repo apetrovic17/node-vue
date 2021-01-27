@@ -5,15 +5,25 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    sneakers : []
+    sneakers : [],
+    korisnik : []
   },
   mutations: {
+
     set_sneakers: function (state,sneakers){
       state.sneakers=sneakers;
     },
 
     add_sneakers: function(state,sneakers){
       state.sneakers.push(sneakers);
+    },
+
+    set_korisnik: function (state,korisnik){
+      state.korisnik=korisnik;
+    },
+
+    add_korisnik: function(state,korisnik){
+      state.korisnik.push(korisnik);
     },
 
     remove_sneakers: function (state, id) {
@@ -98,8 +108,31 @@ export default new Vuex.Store({
           else
             alert(error);
         });
+      },
 
 
+      new_korisnik: function({commit},korisnik){
+        fetch('http://localhost/api/register', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: korisnik
+        }).then((response) => {
+          if (!response.ok)
+            throw response;
+
+          return response.json();
+        }).then((jsonData) => {
+          commit('add_korisnik', jsonData);
+        }).catch((error) => {
+          if (typeof error.text === 'function')
+            error.text().then((errorMessage) => {
+              alert(errorMessage);
+            });
+          else
+            alert(error);
+        });
       },
 
       change_sneakers: function({ commit }, payload) {
