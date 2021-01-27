@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     sneakers : [],
     korisnik : [],
+    korisnici : [],
     token : []
   },
   mutations: {
@@ -28,7 +29,7 @@ export default new Vuex.Store({
     },
 
     add_korisnik: function(state,korisnik){
-      state.korisnik.push(korisnik);
+      state.korisnici.push(korisnik);
     },
 
     remove_sneakers: function (state, id) {
@@ -155,8 +156,9 @@ export default new Vuex.Store({
 
     return response.json();
   }).then((jsonData) => {
+  //  alert(jsonData["token"]);
     localStorage.setItem('token', jsonData["token"]);
-    commit('set_token', jsonData["token"]);
+    commit('set_korisnik', jsonData["korisnik"]);
    // this.$router.push('/');
   }).catch((error) => {
     if (typeof error.text === 'function')

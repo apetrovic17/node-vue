@@ -71,7 +71,7 @@
 
 
                 const pat = JSON.stringify({Username: this.newUsername, Sifra: this.newSifra});
-
+                
                 this.login(pat);
 
                 this.newUsername = '';

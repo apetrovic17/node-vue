@@ -1,11 +1,9 @@
 <template>
-    <!--<div>
-        <b-jumbotron header="Buzz sneakers" :lead="'Num sneakers: ' + sneakers.length">
-        </b-jumbotron>
-    </div> -->
+
+
 
     <div>
-  <b-jumbotron bg-variant="info" text-variant="white" border-variant="dark">
+  <b-jumbotron bg-variant="info"  text-variant="white" border-variant="dark" >
     <template #header>Buzz sneakers</template>
 
     <div id="app">
@@ -14,6 +12,8 @@
 
     <template #lead>
       Find your perfect shoes and clothing at BUZZ! ✓ Newest trends ✓ Lots of brands
+      
+      Korisnik: {{korisnik.Ime}}
     </template>
 
 
@@ -27,7 +27,7 @@
     export default {
         name: "Header",
         computed: {
-            ...mapState(['sneakers'])
+            ...mapState(['sneakers','korisnik'])
         }
     }
 </script>

@@ -154,7 +154,8 @@ route.post('/login', (req, res) => {
                                 let token = jwt.sign({ userId: response[0]['id'] }, 'secretkey');
                                 return res.status(200).json({
                                     title: 'login sucess',
-                                    token: token
+                                    token: token,
+                                    korisnik: response[0]
                                 })
                             }
 
