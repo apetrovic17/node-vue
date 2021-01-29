@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2021 at 01:16 AM
+-- Generation Time: Jan 29, 2021 at 01:09 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -42,7 +42,22 @@ INSERT INTO `korisnik` (`id`, `Ime`, `Username`, `Sifra`) VALUES
 (2, 'Andrija', 'andrija98', '$2b$10$aHGURGindt5pCUofqhvcFuGb0PCTdPDN1MJu7BJ71H6LYxqLTU8bm'),
 (3, 'Proba', 'probaaa', '$2b$10$RVEqF3Wazh8Nw7POwZdgo.PP54Ywf0cBDElt6r9GGBTls8f2YzuDe'),
 (4, 'Nikola Petrovic', 'nikola94', '$2b$10$PRby.KgVo84nggBTG8VKDOh5QVMtOzbeHWC3nA5C6gpGgaQlZoXJa'),
-(5, 'Markoo', 'marko98', '$2b$10$sNwc6gtQMjxM7ohiUHNEsuFHD4oHym0jSMurFMobyWfoQAzvL6DeG');
+(5, 'Markoo', 'marko98', '$2b$10$sNwc6gtQMjxM7ohiUHNEsuFHD4oHym0jSMurFMobyWfoQAzvL6DeG'),
+(6, 'Dragan Nikolic', 'dragann', '$2b$10$gFvulwtlmSS7MxLCbICmUuR/Jt6PH6Dh4LzbmLIDVXonB1OIoYuSy'),
+(7, 'Milos', 'milos98', '$2b$10$8s9PIbSMOd39UD0TygXO0Oyqpm.xhWSmtRzjb5hy8W8yjv9wei3TW'),
+(8, 'Jovana', 'jovana98', '$2b$10$AlG.IpMWSzhn4JlWYXdZpuATt9ixtBIPO32L9wYHVh6vtXM/FOENW');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `korpa`
+--
+
+CREATE TABLE `korpa` (
+  `id` int(11) NOT NULL,
+  `idPatike` int(11) DEFAULT NULL,
+  `idKorisnika` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -83,8 +98,7 @@ INSERT INTO `patike` (`id`, `naziv`, `model`, `opis`, `velicina`, `cena`) VALUES
 (38, 'Adidas', 'Boost', 'Trcanje', 39, 10000),
 (41, 'New Balance', 'TR320', 'Causal', 42, 13500),
 (42, 'Adidas', 'AirBoost', 'Trcanje', 39, 8900),
-(43, 'Nike', 'AirForce01', 'Casual', 46, 13600),
-(45, 'Reebok', 'HG', 'Sport', 41, 8500);
+(45, 'Rebook', 'HG', 'Sportt', 44, 9980);
 
 --
 -- Indexes for dumped tables
@@ -117,7 +131,7 @@ ALTER TABLE `patike`
 -- AUTO_INCREMENT for table `korisnik`
 --
 ALTER TABLE `korisnik`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ocene`
@@ -129,7 +143,7 @@ ALTER TABLE `ocene`
 -- AUTO_INCREMENT for table `patike`
 --
 ALTER TABLE `patike`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
