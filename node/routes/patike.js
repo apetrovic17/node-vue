@@ -83,6 +83,31 @@ route.post('/patike', (req, res) => {
 });
 
 
+route.post('/kupi', (req, res) => {
+
+  let token = req.headers.token; //token
+
+
+   jwt.verify(token, 'secretkey', (err, decoded) => {
+       if (err) return res.status(401).json({
+           title: 'unauthorized'
+       })
+
+       pool.query('insert into korpa (idPatike,idKorisnika) values ('+req.body.idPatike+','+decoded.korisnik+')' , (err, rows) => {
+           if (err){
+               console.log(decoded.korisnik);
+               res.status(500).send(err.sqlMessage);
+               }
+           else{
+
+               res.send(rows);
+               }
+
+       });
+   });
+});
+
+
 route.post('/register', (req, res) => {
 
     let { error } = validacijaReg.validate(req.body);
@@ -151,7 +176,7 @@ route.post('/login', (req, res) => {
                                     error: 'invalid credentials'
                                 })
                             } else {
-                                let token = jwt.sign({ userId: response[0]['id'] }, 'secretkey');
+                                let token = jwt.sign({ korisnik: response[0]['id'] }, 'secretkey');
                                 return res.status(200).json({
                                     title: 'login sucess',
                                     token: token,

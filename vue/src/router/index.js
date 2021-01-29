@@ -5,6 +5,7 @@ import Sneakers from '@/views/Sneakers.vue'
 import NewSneakers from '@/views/NewSneakers.vue'
 import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
+import ShowSneakers from '@/views/ShowSneakers.vue'
 
 Vue.use(VueRouter)
 
@@ -43,7 +44,14 @@ const routes = [
     path: '/sneakers/:id',
     name: 'sneakers',
     component: Sneakers
+  },
+  {
+    path: '/show',
+    name: 'sneakers',
+    component: ShowSneakers
   }
+
+
 ]
 
 const router = new VueRouter({

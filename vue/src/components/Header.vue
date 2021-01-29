@@ -12,7 +12,7 @@
 
     <template #lead>
       Find your perfect shoes and clothing at BUZZ! ✓ Newest trends ✓ Lots of brands
-      
+      <br>
       Korisnik: {{korisnik.Ime}}
     </template>
 

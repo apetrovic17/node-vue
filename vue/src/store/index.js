@@ -8,6 +8,7 @@ export default new Vuex.Store({
     sneakers : [],
     korisnik : [],
     korisnici : [],
+    korpa: [],
     token : []
   },
   mutations: {
@@ -22,6 +23,10 @@ export default new Vuex.Store({
 
     add_sneakers: function(state,sneakers){
       state.sneakers.push(sneakers);
+    },
+
+    add_korpa: function(state,korpa){
+      state.sneakers.push(korpa);
     },
 
     set_korisnik: function (state,korisnik){
@@ -141,34 +146,60 @@ export default new Vuex.Store({
         });
       },
 
+      kupi: function({commit},id){
+        fetch('http://localhost/api/kupi', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            'token':localStorage.getItem('token')
+          },
+          body: id
+        }).then((response) => {
+          if (!response.ok)
+            throw response;
+
+          return response.json();
+        }).then((jsonData) => {
+
+          commit('add_korpa', jsonData);
+        }).catch((error) => {
+          if (typeof error.text === 'function')
+            error.text().then((errorMessage) => {
+              alert(errorMessage);
+            });
+          else
+            alert(error);
+        });
+      },
+
 
       login: function ({ commit }, korisnik) {
+        fetch('http://localhost/api/login', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
 
-  fetch('http://localhost/api/login', {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: korisnik
-  }).then((response) => {
-    if (!response.ok)
-      throw response;
+          },
+          body: korisnik
+        }).then((response) => {
+          if (!response.ok)
+          throw response;
 
-    return response.json();
-  }).then((jsonData) => {
-  //  alert(jsonData["token"]);
-    localStorage.setItem('token', jsonData["token"]);
-    commit('set_korisnik', jsonData["korisnik"]);
-   // this.$router.push('/');
-  }).catch((error) => {
-    if (typeof error.text === 'function')
-      error.text().then((errorMessage) => {
-        alert(errorMessage);
+          return response.json();
+        }).then((jsonData) => {
+
+      localStorage.setItem('token', jsonData["token"]);
+      commit('set_korisnik', jsonData["korisnik"]);
+
+    }).catch((error) => {
+      if (typeof error.text === 'function')
+        error.text().then((errorMessage) => {
+          alert(errorMessage);
+        });
+        else
+        alert(error);
       });
-    else
-      alert(error);
-  });
-},
+    },
 
       change_sneakers: function({ commit }, payload) {
         fetch(`http://localhost/api/patike/${payload.id}`, {
